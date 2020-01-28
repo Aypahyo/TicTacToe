@@ -7,6 +7,89 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <Viewbox  Margin="5" VerticalAlignment="Stretch" Height="Auto" Grid.ColumnSpan="6">
+            <TextBlock Text="{Binding Systemstate}" />
+        </Viewbox>
+        <Button Name="map00" Margin="5" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Click="MapClick" >
+            <Viewbox  Margin="1" VerticalAlignment="Stretch" Height="Auto">
+                <TextBlock Text="{Binding MAP[0][0]}" />
+            </Viewbox>
+        </Button>
+        <Button Name="map01" Margin="5" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Click="MapClick" >
+            <Viewbox  Margin="1" VerticalAlignment="Stretch" Height="Auto">
+                <TextBlock Text="{Binding MAP[0][1]}" />
+            </Viewbox>
+        </Button>
+        <Button Name="map02" Margin="5" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Click="MapClick" >
+            <Viewbox  Margin="1" VerticalAlignment="Stretch" Height="Auto">
+                <TextBlock Text="{Binding MAP[0][2]}" />
+            </Viewbox>
+        </Button>
+        <Button Name="map10" Margin="5" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" Click="MapClick" >
+            <Viewbox  Margin="1" VerticalAlignment="Stretch" Height="Auto">
+                <TextBlock Text="{Binding MAP[1][0]}" />
+            </Viewbox>
+        </Button>
+        <Button Name="map11" Margin="5" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" Click="MapClick" >
+            <Viewbox  Margin="1" VerticalAlignment="Stretch" Height="Auto">
+                <TextBlock Text="{Binding MAP[1][1]}" />
+            </Viewbox>
+        </Button>
+        <Button Name="map12" Margin="5" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2" Click="MapClick" >
+            <Viewbox  Margin="1" VerticalAlignment="Stretch" Height="Auto">
+                <TextBlock Text="{Binding MAP[1][2]}" />
+            </Viewbox>
+        </Button>
+        <Button Name="map20" Margin="5" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="2" Click="MapClick" >
+            <Viewbox  Margin="1" VerticalAlignment="Stretch" Height="Auto">
+                <TextBlock Text="{Binding MAP[2][0]}" />
+            </Viewbox>
+        </Button>
+        <Button Name="map21" Margin="5" Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Click="MapClick" >
+            <Viewbox  Margin="1" VerticalAlignment="Stretch" Height="Auto">
+                <TextBlock Text="{Binding MAP[2][1]}" />
+            </Viewbox>
+        </Button>
+        <Button Name="map22" Margin="5" Grid.Column="4" Grid.Row="3" Grid.ColumnSpan="2" Click="MapClick" >
+            <Viewbox  Margin="1" VerticalAlignment="Stretch" Height="Auto">
+                <TextBlock Text="{Binding MAP[2][2]}" />
+            </Viewbox>
+        </Button>
+        <Button Name="HumanVsHuman" Margin="5" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3" Click="ControlClick" >
+            <Viewbox  Margin="1" VerticalAlignment="Stretch" Height="Auto">
+                <TextBlock Text="Human - Human" />
+            </Viewbox>
+        </Button>
+        <Button Name="HumanVsComputer" Margin="5" Grid.Column="3" Grid.Row="4" Grid.ColumnSpan="3" Click="ControlClick" >
+            <Viewbox  Margin="1" VerticalAlignment="Stretch" Height="Auto">
+                <TextBlock Text="Human - Computer" />
+            </Viewbox>
+        </Button>
+        <Button Name="ComputerVsHuman" Margin="5" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="3" Click="ControlClick" >
+            <Viewbox  Margin="1" VerticalAlignment="Stretch" Height="Auto">
+                <TextBlock Text="Computer - Human" />
+            </Viewbox>
+        </Button>
+        <Button Name="ComputerVsComputer" Margin="5" Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="3" Click="ControlClick" >
+            <Viewbox  Margin="1" VerticalAlignment="Stretch" Height="Auto">
+                <TextBlock Text="Computer - Computer" />
+            </Viewbox>
+        </Button>
     </Grid>
 </Window>
