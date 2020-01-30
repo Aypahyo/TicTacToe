@@ -5,9 +5,15 @@ using System.Text;
 
 namespace TicTacToe.WPFFrontendTest.gui
 {
-    [SetUpFixture]
-    public class SetUpFixture
+    [TestFixture]
+    class AppFixture
     {
+        [Test]
+        public void test()
+        {
+            int a = 5;
+        }
+
 
     }
 }
