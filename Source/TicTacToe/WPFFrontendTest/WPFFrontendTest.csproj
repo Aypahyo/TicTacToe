@@ -6,6 +6,12 @@
     <IsPackable>false</IsPackable>
 
     <RootNamespace>TicTacToe.WPFFrontendTest</RootNamespace>
+
+    <ApplicationIcon />
+
+    <OutputType>WinExe</OutputType>
+
+    <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>

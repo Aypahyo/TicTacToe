@@ -3,7 +3,10 @@ using FlaUI.UIA3;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Text;
+using System.Threading;
 
 namespace TicTacToe.WPFFrontendTest.gui
 {
@@ -15,7 +18,20 @@ namespace TicTacToe.WPFFrontendTest.gui
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            App = Application.Launch("WPFFrontend.exe");
+            foreach(var p in Process.GetProcessesByName("WPFFrontend")) { p.Kill(); }
+
+            var path = 
+                Path.GetFullPath(
+                Path.Combine(
+                    TestContext.CurrentContext.TestDirectory, 
+                    "../../../..", 
+                    @"WPFFrontend\bin\Debug\netcoreapp3.1", 
+                    "WPFFrontend.exe"));
+            FileAssert.Exists(path);
+            App = Application.Launch(path);
+
+            while (Process.GetProcessesByName("WPFFrontend").Length == 0) ;
+            Thread.Sleep(TimeSpan.FromSeconds(2));
         }
 
         [OneTimeTearDown]
@@ -24,8 +40,6 @@ namespace TicTacToe.WPFFrontendTest.gui
             App.Close();
             App.Dispose();
             App.Kill();
-            using var automation = new UIA3Automation();
-            App.GetMainWindow(automation).Close();
         }
     }
 }
