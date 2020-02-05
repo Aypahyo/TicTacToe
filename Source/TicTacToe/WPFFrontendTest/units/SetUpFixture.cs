@@ -8,6 +8,5 @@ namespace TicTacToe.WPFFrontendTest.units
     [SetUpFixture, Category("unit")]
     public class SetUpFixture
     {
-
     }
 }

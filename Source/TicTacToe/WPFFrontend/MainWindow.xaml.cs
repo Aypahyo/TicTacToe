@@ -23,6 +23,7 @@ namespace TicTacToe.WPFFrontend
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new WindowViewModel(null);
         }
     }
 }
