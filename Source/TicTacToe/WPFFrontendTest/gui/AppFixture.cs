@@ -1,11 +1,7 @@
 ﻿using FlaUI.Core.AutomationElements;
 using FlaUI.UIA3;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using TicTacToe.WPFFrontend;
 
 namespace TicTacToe.WPFFrontendTest.gui
 {
@@ -22,6 +18,12 @@ namespace TicTacToe.WPFFrontendTest.gui
             window = GuiSetUpFixture.App.GetMainWindow(automation);
         }
 
+        [SetUp]
+        public void Setup()
+        {
+            Button("control_HH")?.Invoke();
+        }
+
         [Test]
         public void CanClickAllMapOptions()
         {
@@ -33,36 +35,50 @@ namespace TicTacToe.WPFFrontendTest.gui
 
             foreach (var buttonName in clicksForATie)
             {
-                ClickMapButton(buttonName);
+                Button(buttonName)?.Invoke();
             }
-            
-            int actual = GetMapTextBlocks()
-              .Count(c => !string.IsNullOrWhiteSpace(c.Name));
 
+            int actual = Buttons()
+                .Where(b => b.AutomationId.StartsWith("map"))
+                .Select(TextBlock)
+                .Count(c => !string.IsNullOrWhiteSpace(c.Name));
+            
             Assert.AreEqual(clicksForATie.Length, actual);
         }
 
-        private IEnumerable<AutomationElement> GetMapTextBlocks()
+        [TestCase("map00")]
+        [TestCase("map01")]
+        [TestCase("map02")]
+        [TestCase("map10")]
+        [TestCase("map11")]
+        [TestCase("map12")]
+        [TestCase("map20")]
+        [TestCase("map21")]
+        [TestCase("map22")]
+        public void ClickActivatesButton(string buttonName)
         {
-            return MapButtons()
-              .Select(b => b.FindFirstDescendant(cf => cf.ByClassName("TextBlock")));
+            Button(buttonName)?.Invoke(); ;
+            var text = GetTextBlock(buttonName);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(text.Name));
         }
 
-        private void ClickMapButton(string buttonName)
+        private AutomationElement TextBlock(Button b)
         {
-            MapButtons()
-                .FirstOrDefault(b => b.AutomationId == buttonName)
-                ?.Invoke();
+            return b.FindFirstDescendant(cf => cf.ByClassName("TextBlock"));
         }
 
-        private Button[] MapButtons()
+        private AutomationElement GetTextBlock(string buttonName)
         {
-            return AllButtons()
-                .Where(b => b.AutomationId.StartsWith("map"))
-                .ToArray();
+            return TextBlock(Button(buttonName));
         }
 
-        private Button[] AllButtons()
+
+        private Button Button(string buttonName)
+        {
+            return Buttons().FirstOrDefault(b => b.AutomationId == buttonName);
+        }
+
+        private Button[] Buttons()
         {
             return window
                 .FindAllDescendants(cf => cf.ByClassName(nameof(Button)))
