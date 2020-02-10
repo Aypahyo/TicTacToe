@@ -8,7 +8,17 @@ namespace TicTacToe
 	struct Game::Impl
 	{
 		std::regex winner{ "([XO]{3})|(X.{3}X.{3}X)|(O.{3}O.{3}O)|(X.{4}X.{4}X)|(O.{4}O.{4}O)|(X.{2}X.{2}X)|(O.{2}O.{2}O)" };
+		Game* parent;
 		GameState state{};
+		void* handlerContext = 0;
+		GameStateChangedHandler handler = 0;
+
+		void RaiseGameStateChanged()
+		{
+			if (handler)
+				handler(handlerContext, parent, state);
+		}
+
 		bool Move(GameMove move)
 		{
 			if (StaticallyInvalid(move))
@@ -27,6 +37,7 @@ namespace TicTacToe
 			{
 				UpdatePlayer(move);
 			}
+			RaiseGameStateChanged();
 			return true;
 		}
 
@@ -71,12 +82,25 @@ namespace TicTacToe
 			return state;
 		}
 
-		Impl() {};
+		Impl(Game* parent) : parent{parent} {};
 		~Impl() {};
 	};
 
+	int Game::RegisterGameStateChangedHandler(void* context, GameStateChangedHandler handler)
+	{
+		//TODO: Test and support more than one handler
+		impl->handlerContext = context;
+		impl->handler = handler;
+		return 1;
+	}
+	void Game::UnRegisterGameStateChangedHandler(int registrationID)
+	{
+		impl->handlerContext = 0;
+		impl->handler = 0;
+	}
 
-	Game::Game():impl(std::make_unique<Game::Impl>())
+
+	Game::Game():impl(std::make_unique<Game::Impl>(this))
 	{
 	}
 

@@ -1,4 +1,5 @@
 #include <CoreNative/Include/GameState.h>
+#include <sstream>
 
 TicTacToe::GameState::GameState()
 	:Moves{}
@@ -23,6 +24,28 @@ bool TicTacToe::GameState::AppendMove(GameMove move)
 			return true;
 		}
 	return false;
+}
+
+std::string TicTacToe::GameState::ToJson()
+{
+	std::stringstream ss;
+	ss << R"(
+	{
+			"NextPlayer" : ')" << NextPlayer << R"(',
+			"Winner" : ')" << (char)Winner << R"(',
+			"Board" : ")" << Board << R"(",
+			"Moves" : 
+			[)";
+	bool more{ false };
+	for (int i = 0; i < 9; i++)
+	{
+		if (Moves[i] == GameMoveZero) break;
+		if (more) ss << ",\n";
+		ss << Moves[i].ToJson();
+		more = true;
+	}
+	ss << R"( ] } )";
+	return ss.str();
 }
 
 bool TicTacToe::GameState::operator==(const GameState& other) const
