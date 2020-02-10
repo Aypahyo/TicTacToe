@@ -2,21 +2,30 @@
 #include <string>
 #include <regex>
 
+
 namespace TicTacToe
 {
-	
+	struct Subscriber
+	{
+		int id;
+		void* context;
+		GameStateChangedHandler handler;
+	};
+		
 	struct Game::Impl
 	{
 		std::regex winner{ "([XO]{3})|(X.{3}X.{3}X)|(O.{3}O.{3}O)|(X.{4}X.{4}X)|(O.{4}O.{4}O)|(X.{2}X.{2}X)|(O.{2}O.{2}O)" };
 		Game* parent;
 		GameState state{};
-		void* handlerContext = 0;
-		GameStateChangedHandler handler = 0;
+		int nextHandler = 0;
+		std::vector<Subscriber> subscribers{};
 
 		void RaiseGameStateChanged()
 		{
-			if (handler)
-				handler(handlerContext, parent, state);
+			for (const auto& subs : subscribers)
+			{
+				subs.handler(subs.context, parent, state);
+			}
 		}
 
 		bool Move(GameMove move)
@@ -88,17 +97,30 @@ namespace TicTacToe
 
 	int Game::RegisterGameStateChangedHandler(void* context, GameStateChangedHandler handler)
 	{
-		//TODO: Test and support more than one handler
-		impl->handlerContext = context;
-		impl->handler = handler;
-		return 1;
-	}
-	void Game::UnRegisterGameStateChangedHandler(int registrationID)
-	{
-		impl->handlerContext = 0;
-		impl->handler = 0;
+		//todo: test multiple subscribers
+		Subscriber subscriber{};
+		subscriber.context = context;
+		subscriber.handler = handler;
+		subscriber.id = impl->nextHandler++;
+		impl->subscribers.push_back(subscriber);
+		return subscriber.id;
 	}
 
+	void Game::UnRegisterGameStateChangedHandler(int registrationID)
+	{
+		auto current = impl->subscribers.begin();
+		bool found{ false };
+		for (; current < impl->subscribers.end(); ++current)
+		{
+			if ((*current).id == registrationID)
+			{
+				found = true;
+				break;
+			}
+		}
+		if (!found) return;
+		impl->subscribers.erase(current);
+	}
 
 	Game::Game():impl(std::make_unique<Game::Impl>(this))
 	{
