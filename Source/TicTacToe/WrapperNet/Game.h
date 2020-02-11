@@ -4,18 +4,19 @@
 using namespace System;
 
 namespace TicTacToeNet {
+
+	struct GameImpl;
+
 	public ref class Game
 	{
 	private:
-		//TODO refactor with pimpl idiom
-		TicTacToe::Game * game;
-		IntPtr thisHandle;
-		int registrationId;
+		GameImpl* pimpl;
+	internal:
+		void RaiseGameStatusChanged(System::String^ json);
 	public:
 		Game();
 		~Game();
 		event EventHandler<System::String^>^ GameStatusChanged;
-		void Raise(System::String^);
 		char CurrentPlayer();
 		bool Move(int row, int column, wchar_t player);
 		bool Move(GameMove ^ move);

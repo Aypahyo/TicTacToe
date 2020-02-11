@@ -97,7 +97,6 @@ namespace TicTacToe
 
 	int Game::RegisterGameStateChangedHandler(void* context, GameStateChangedHandler handler)
 	{
-		//todo: test multiple subscribers
 		Subscriber subscriber{};
 		subscriber.context = context;
 		subscriber.handler = handler;

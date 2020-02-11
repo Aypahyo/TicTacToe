@@ -1,29 +1,34 @@
 #pragma once
-#pragma once
+#include <memory>
 #include <CoreNative/Include/TicTacToe.h>
 using namespace System;
 
-
 namespace TicTacToeNet {
+	struct GameMoveImpl;
 	public ref class GameMove : Object
 	{
 	private:
-		//TODO pimpl
-		TicTacToe::GameMove* gameMove;
+		GameMoveImpl* pimpl;
+		int getRow();
+		void setRow(int);
+		int getColumn();
+		void setColumn(int);
+		wchar_t getPlayer();
+		void setPlayer(wchar_t);
 	public:
 		GameMove(int row, int column, wchar_t player);
 		~GameMove();
 		property int Row { 
-			int get() { return gameMove->row; } 
-			void set(int value) { gameMove->row = value; }
+			int get() { return getRow(); } 
+			void set(int value) { setRow(value); }
 		}
 		property int Column {
-			int get() { return gameMove->column; }
-			void set(int value) { gameMove->column = value; }
+			int get() { return getColumn(); }
+			void set(int value) { setColumn(value); }
 		}
 		property wchar_t Player {
-			wchar_t get() { return gameMove->player; }
-			void set(wchar_t value) { gameMove->player = value; }
+			wchar_t get() { return getPlayer(); }
+			void set(wchar_t value) { setPlayer(value); }
 		}
 
 		virtual String^ ToString() override;
