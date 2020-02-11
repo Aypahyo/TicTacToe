@@ -6,6 +6,7 @@ namespace TicTacToe.WPFFrontend
 {
     public class StatusEventArgs : EventArgs
     {
-        public string Status { get; set; }
+        public string SystemState;
+        public char[][] MAP;
     }
 }

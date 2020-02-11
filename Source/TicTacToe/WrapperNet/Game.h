@@ -17,7 +17,7 @@ namespace TicTacToeNet {
 		Game();
 		~Game();
 		event EventHandler<System::String^>^ GameStatusChanged;
-		char CurrentPlayer();
+		wchar_t CurrentPlayer();
 		bool Move(int row, int column, wchar_t player);
 		bool Move(GameMove ^ move);
 	};

@@ -4,12 +4,8 @@ using namespace System::Runtime::InteropServices;
 
 namespace TicTacToeNet
 {
-	void gameStateChangedHandler(void* context, TicTacToe::Game* game, TicTacToe::GameState state)
-	{
-		GameImpl* pimpl = (GameImpl*)context;
-		pimpl->Raise(state.ToJson());
-	}
-
+	void gameStateChangedHandler(void* context, TicTacToe::Game* game, TicTacToe::GameState state);
+	
 	struct GameImpl
 	{
 		TicTacToe::Game game{};
@@ -35,6 +31,12 @@ namespace TicTacToeNet
 		}
 	};
 
+	void gameStateChangedHandler(void* context, TicTacToe::Game* game, TicTacToe::GameState state)
+	{
+		GameImpl* pimpl = (GameImpl*)context;
+		pimpl->Raise(state.ToJson());
+	}
+
 	Game::Game()
 	{
 		auto thisHandle = static_cast<IntPtr>(GCHandle::Alloc(this));
@@ -51,7 +53,7 @@ namespace TicTacToeNet
 		GameStatusChanged(this, json);
 	}
 
-	char Game::CurrentPlayer()
+	wchar_t Game::CurrentPlayer()
 	{
 		return pimpl->game.CurrentPlayer();
 	}

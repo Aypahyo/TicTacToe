@@ -23,7 +23,18 @@ namespace TicTacToe.WPFFrontend
 
         private void GameService_GameStatus(object sender, StatusEventArgs e)
         {
-            Systemstate = e.Status;
+            Systemstate = e.SystemState;
+            for (int row = 0; row < 3; ++row)
+                for (int col = 0; col < 3; ++col)
+                {
+                    try
+                    {
+                        SetMap(col, row, e.MAP[row][col]);
+                    }
+                    catch { 
+                        //intentionally empty
+                    }
+                }
         }
 
         private void ControlClickImpl(string[] args)

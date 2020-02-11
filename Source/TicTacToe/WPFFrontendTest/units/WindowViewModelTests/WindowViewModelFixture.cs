@@ -128,7 +128,7 @@ namespace TicTacToe.WPFFrontendTest.units.WindowViewModelTests
         public void GetStatusFromIGameService()
         {
             string expected = "this is a status";
-            gameServiceMock.Raise(m => m.GameStatus += null, new StatusEventArgs() { Status = expected });
+            gameServiceMock.Raise(m => m.GameStatus += null, new StatusEventArgs() { SystemState = expected });
             Assert.AreEqual(expected, _uut.Systemstate);
         }
 

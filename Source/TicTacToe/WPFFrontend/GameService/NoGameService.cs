@@ -11,7 +11,7 @@ namespace TicTacToe.WPFFrontend.GameService
 
         public Task<char> GetCurrentSymbol()
         {
-            GameStatus(this, new StatusEventArgs { Status = nameof(GetCurrentSymbol) });
+            GameStatus(this, new StatusEventArgs { SystemState = nameof(GetCurrentSymbol) });
             return Task.FromResult(
                 new char[] { 'X', 'O', 'A', 'B', 'C' }
                 [new Random().Next(0, 4)]);
@@ -19,13 +19,13 @@ namespace TicTacToe.WPFFrontend.GameService
 
         public Task<bool> TryMove(int col, int row, char symbol)
         {
-            GameStatus(this, new StatusEventArgs { Status = nameof(TryMove) });
+            GameStatus(this, new StatusEventArgs { SystemState = nameof(TryMove) });
             return Task.FromResult(true);
         }
 
         public Task<bool> TryNewGame(string gameType)
         {
-            GameStatus(this, new StatusEventArgs { Status = nameof(TryNewGame) });
+            GameStatus(this, new StatusEventArgs { SystemState = nameof(TryNewGame) });
             return Task.FromResult(true);
         }
     }
