@@ -1,5 +1,6 @@
 #pragma once
 #include <CoreNative/Include/GameMove.h>
+#include <string>
 
 namespace TicTacToe
 {
@@ -24,8 +25,8 @@ namespace TicTacToe
 		//appends move and ensures zero termination
 		//returns false if move was not appended
 		bool AppendMove(GameMove move);
-
+		//Creates a JSON representing the GameState
+		std::string ToJson();
 		bool operator ==(const GameState&) const;
-
 	};
 }

@@ -175,4 +175,41 @@ namespace CoreTests
         EXPECT_FALSE(game.Move(1, 1, ' ')) << "' ' not a player";
         EXPECT_FALSE(game.Move(1, 1, 'B')) << "'B' not a player";
     }
+
+    TEST(Game, RegisterOne)
+    {
+        TicTacToe::Game game{};
+        int context = 0;
+        game.RegisterGameStateChangedHandler(&context, [](void* c, TicTacToe::Game* g, TicTacToe::GameState s){++(*(int*)c);});
+        game.Move(TicTacToe::GameMove{ 0, 0, 'X' });
+        ASSERT_EQ(1, context);
+    }
+
+    TEST(Game, RegisterTwo)
+    {
+        TicTacToe::Game game{};
+        int one = 0;
+        int two = 0;
+        auto handler = [](void* c, TicTacToe::Game* g, TicTacToe::GameState s) {++(*(int*)c); };
+        game.RegisterGameStateChangedHandler(&one, handler);
+        game.RegisterGameStateChangedHandler(&two, handler);
+        game.Move(TicTacToe::GameMove{ 0, 0, 'X' });
+        ASSERT_EQ(1, one);
+        ASSERT_EQ(1, two);
+    }
+
+    TEST(Game, UnRegister)
+    {
+        TicTacToe::Game game{};
+        int one = 0;
+        int two = 0;
+        auto handler = [](void* c, TicTacToe::Game* g, TicTacToe::GameState s) {++(*(int*)c); };
+        int id = game.RegisterGameStateChangedHandler(&one, handler);
+        game.RegisterGameStateChangedHandler(&two, handler);
+        game.UnRegisterGameStateChangedHandler(id);
+        game.Move(TicTacToe::GameMove{ 0, 0, 'X' });
+        ASSERT_EQ(0, one) << "one has been unregisterd";
+        ASSERT_EQ(1, two) << "two should be active";
+    }
+
 }

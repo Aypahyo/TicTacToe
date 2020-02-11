@@ -18,10 +18,10 @@ namespace TicTacToe.WPFFrontend
             MapClick = new CSVCommand(MapClickImpl);
             ControlClick = new CSVCommand(ControlClickImpl);
             _gameService = gameService ?? new NoGameService();
-            WeakEventManager<IGameService, StatusEventArgs>.AddHandler(_gameService, nameof(_gameService.GameStatus), gameService_GameStatus);
+            WeakEventManager<IGameService, StatusEventArgs>.AddHandler(_gameService, nameof(_gameService.GameStatus), GameService_GameStatus);
         }
 
-        private void gameService_GameStatus(object sender, StatusEventArgs e)
+        private void GameService_GameStatus(object sender, StatusEventArgs e)
         {
             Systemstate = e.Status;
         }
@@ -89,7 +89,7 @@ namespace TicTacToe.WPFFrontend
             get { return _s; }
             set
             {
-                value = value ?? string.Empty;
+                value ??= string.Empty;
                 if (string.Equals(_s, value)) return;
                 _s = value;
                 PropertyChanged(this, new PropertyChangedEventArgs(nameof(Systemstate)));

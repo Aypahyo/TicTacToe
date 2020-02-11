@@ -1,4 +1,6 @@
 #pragma once
+#include <sstream>
+
 namespace TicTacToe
 {
 	struct GameMove
@@ -20,6 +22,14 @@ namespace TicTacToe
 		{
 			return !(this->operator==(other));
 		}
+
+		std::string ToJson()
+		{
+			std::stringstream ss;
+			ss << R"({ "Row": )" << row << R"(, "Column": )" << column << R"(, "Player": ')" << (char)player << R"(' })";
+			return ss.str();
+		}
+
 
 	};
 
