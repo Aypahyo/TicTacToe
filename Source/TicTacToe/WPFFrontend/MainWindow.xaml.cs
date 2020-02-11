@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TicTacToe.WPFFrontend.GameService;
 
 namespace TicTacToe.WPFFrontend
 {
@@ -23,7 +24,7 @@ namespace TicTacToe.WPFFrontend
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new WindowViewModel(null);
+            DataContext = new WindowViewModel(App.LocateService<IGameService>());
         }
     }
 }
