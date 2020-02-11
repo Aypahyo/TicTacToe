@@ -16,32 +16,38 @@ namespace TicTacToe.WPFFrontend
     {
         internal static Dictionary<Type, object> Instances = new Dictionary<Type, object>();
 
-        public App()
+        private static void EnsureServiceListings()
         {
-            StartService((Func<IGameService>)(() => { return new NoGameService(); }));
+            if (Instances.Count > 0) return;
+            StartService((Func<IGameService>)(() => { return new CoreGameService(); }));
         }
 
         private static void StartService<T>(Func<T> ctorDefault) where T : class
         {
-            string assemblyName = typeof(App).Assembly.GetName().Name;
-            Type t = typeof(T);
-            string envvarname = $"{nameof(T)}__Strategy";
-            var typeName = Environment.GetEnvironmentVariable(envvarname);
+            Type interfaceType = typeof(T);
+            string assemblyName = interfaceType.Assembly.GetName().Name;
+            string typeKey = $"{interfaceType.Name}__Strategy";
+            var typeValue = Environment.GetEnvironmentVariable(typeKey);
+            
             T service = default;
             try
             {
-                service = Activator.CreateInstance(assemblyName, typeName) as T;
-                if (service == null) throw new Exception($"{assemblyName} {typeName} was not {t.FullName}");
+                Type instanceType = Type.GetType(typeValue);
+                var ctor = instanceType.GetConstructor(Type.EmptyTypes);
+                object instance = ctor.Invoke(null);
+                service = instance as T;
+                if (service == null) throw new Exception($"{assemblyName} {typeValue} was not {interfaceType.FullName}");
             }
             catch
             {
                 service = ctorDefault();
             }
-            Instances[t] = service;
+            Instances[interfaceType] = service;
         }
 
         internal static T LocateService<T>()
         {
+            EnsureServiceListings();
             Type t = typeof(T);
             if (!Instances.ContainsKey(t)) return default;
             object obj = Instances[t];

@@ -28,6 +28,8 @@ namespace TicTacToe.WPFFrontendTest.gui
                     @"WPFFrontend\bin\Debug\netcoreapp3.1", 
                     "WPFFrontend.exe"));
             FileAssert.Exists(path);
+
+            Environment.SetEnvironmentVariable("IGameService__Strategy", "NoGameService");
             App = Application.Launch(path);
 
             while (Process.GetProcessesByName("WPFFrontend").Length == 0) ;
