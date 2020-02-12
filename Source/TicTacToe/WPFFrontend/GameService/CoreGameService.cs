@@ -66,7 +66,10 @@ namespace TicTacToe.WPFFrontend.GameService
 
         public Task<bool> TryNewGame(string gameType)
         {
-            throw new NotImplementedException();
+            game.GameStatusChanged -= Game_GameStatusChanged;
+            game = new TicTacToeNet.Game();
+            game.GameStatusChanged += Game_GameStatusChanged;
+            return Task.FromResult(true);
         }
     }
 }
