@@ -20,7 +20,7 @@ namespace CoreTests
         EXPECT_TRUE(success);
     }
 
-    TEST(Game, AcceptTieMoves)
+    TEST(Game, Winner_None)
     {
         TicTacToe::Game game{};
         bool success{ true };
@@ -34,6 +34,26 @@ namespace CoreTests
         success &= game.Move(2, 2, 'O');
         success &= game.Move(2, 0, 'X');
         EXPECT_TRUE(success);
+        auto actual = game.GetState();
+        EXPECT_EQ(' ', actual.Winner);
+    }
+
+    TEST(Game, Winner_NoneFontEndCase)
+    {
+        TicTacToe::Game game{};
+        bool success{ true };
+        success &= game.Move(0, 0, 'X');
+        success &= game.Move(2, 0, 'O');
+        success &= game.Move(1, 0, 'X');
+        success &= game.Move(0, 1, 'O');
+        success &= game.Move(1, 1, 'X');
+        success &= game.Move(1, 2, 'O');
+        success &= game.Move(2, 1, 'X');
+        success &= game.Move(2, 2, 'O');
+        success &= game.Move(0, 2, 'X');
+        EXPECT_TRUE(success);
+        auto actual = game.GetState();
+        EXPECT_EQ(' ', actual.Winner);
     }
 
     TEST(Game, GetGameState)

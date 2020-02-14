@@ -24,17 +24,21 @@ namespace TicTacToe.WPFFrontend
         private void GameService_GameStatus(object sender, StatusEventArgs e)
         {
             Systemstate = e.SystemState;
-            for (int row = 0; row < 3; ++row)
-                for (int col = 0; col < 3; ++col)
-                {
-                    try
-                    {
-                        SetMap(col, row, e.MAP[row][col]);
-                    }
-                    catch { 
-                        //intentionally empty
-                    }
-                }
+            if (e.MAP?.Length != 9) return;
+
+            bool changed = false;
+            try
+            {
+                for (int row = 0; row < 3; ++row)
+                    for (int col = 0; col < 3; ++col)
+                        changed |= TryUpdateMap(col, row, e.MAP[row][col]);
+            }
+            catch
+            {
+                //intentionally empty
+            }
+            if (changed)
+                PropertyChanged(this, new PropertyChangedEventArgs(nameof(MAP)));
         }
 
         private void ControlClickImpl(string[] args)
@@ -44,7 +48,7 @@ namespace TicTacToe.WPFFrontend
             if (!symbols.Contains(args[0])) return;
             if (!symbols.Contains(args[1])) return;
             var newGameTask = _gameService.TryNewGame(string.Join(',', args));
-            if(newGameTask.Result)
+            if (newGameTask.Result)
                 ClearMap();
         }
 
@@ -67,7 +71,7 @@ namespace TicTacToe.WPFFrontend
             if (MAP[col][row] == c) return false;
 
             var moveTask = _gameService.TryMove(col, row, c);
-            if(moveTask.Result)
+            if (moveTask.Result)
                 MAP[col][row] = c;
 
             return moveTask.Result;

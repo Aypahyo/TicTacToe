@@ -46,6 +46,7 @@
     <IncludePath>$(SolutionDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <ItemGroup>
+    <ClCompile Include="GameJudgeTests.cpp" />
     <ClCompile Include="GameMoveTests.cpp" />
     <ClCompile Include="GameStateTests.cpp" />
     <ClCompile Include="GameTests.cpp" />

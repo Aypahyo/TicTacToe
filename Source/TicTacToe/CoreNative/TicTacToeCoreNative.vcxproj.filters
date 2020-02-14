@@ -27,12 +27,18 @@
     <ClInclude Include="Include\GameMove.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Include\GameJudge.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Game.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Source\GameState.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameJudge.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

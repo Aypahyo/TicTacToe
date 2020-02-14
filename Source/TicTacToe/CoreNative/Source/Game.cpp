@@ -1,6 +1,9 @@
 #include <CoreNative/Include/Game.h>
+#include <CoreNative/Include/GameJudge.h>
+#include <vector>
 #include <string>
-#include <regex>
+
+
 
 
 namespace TicTacToe
@@ -14,9 +17,9 @@ namespace TicTacToe
 		
 	struct Game::Impl
 	{
-		std::regex winner{ "([XO]{3})|(X.{3}X.{3}X)|(O.{3}O.{3}O)|(X.{4}X.{4}X)|(O.{4}O.{4}O)|(X.{2}X.{2}X)|(O.{2}O.{2}O)" };
 		Game* parent;
 		GameState state{};
+		GameJudge judge{};
 		int nextHandler = 0;
 		std::vector<Subscriber> subscribers{};
 
@@ -37,7 +40,7 @@ namespace TicTacToe
 			if (!state.AppendMove(move))
 				return false;
 			UpdateBoard(move);
-			if (GameIsWon())
+			if (judge.GameIsWon(state.Board))
 			{
 				state.Winner = move.player;
 				state.NextPlayer = ' ';
@@ -50,12 +53,7 @@ namespace TicTacToe
 			return true;
 		}
 
-		bool GameIsWon()
-		{
-			std::smatch m;
-			std::string s{state.Board};
-			return std::regex_search(s, m, winner);
-		}
+
 
 		bool StaticallyInvalid(GameMove move)
 		{

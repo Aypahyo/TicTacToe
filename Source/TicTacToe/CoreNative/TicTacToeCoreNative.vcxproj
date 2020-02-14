@@ -157,10 +157,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Game.cpp" />
+    <ClCompile Include="Source\GameJudge.cpp" />
     <ClCompile Include="Source\GameState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\Game.h" />
+    <ClInclude Include="Include\GameJudge.h" />
     <ClInclude Include="Include\GameMove.h" />
     <ClInclude Include="Include\GameState.h" />
     <ClInclude Include="Include\TicTacToe.h" />
